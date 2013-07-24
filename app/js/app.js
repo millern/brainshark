@@ -1,4 +1,4 @@
-angular.module('game', []).
+var gameApp = angular.module('game', []).
   config(function($routeProvider) {
     $routeProvider.
       when('/', {templateUrl: 'partials/game.html', controller: GameCtrl}).

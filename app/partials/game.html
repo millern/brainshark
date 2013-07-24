@@ -1,10 +1,16 @@
-<script>
-var w = 500;
-var h = 300;
-var padding = 30;
+<gh-visualization puzzle-def="puzzleDef" w="300" padding="15"></gh-visualization>
 
-var svg = d3.select('body').append('svg')
-                           .attr('width',w)
-                           .attr('height',h);
+<div class="transforms">
+  {{ puzzleDef.transforms }}
+</div>
+<div class="answers">
+  <gh-visualization puzzle-def="puzzleDef" w="100" padding="5"></gh-visualization>
 
-</script>
+  <gh-visualization puzzle-def="puzzleDef" w="100" padding="5"></gh-visualization>
+
+  <gh-visualization puzzle-def="puzzleDef" w="100" padding="5"></gh-visualization>
+
+  <gh-visualization puzzle-def="puzzleDef" w="100" padding="5"></gh-visualization>
+</div>
+
+<p>It's ok, the game is rendering</p>
