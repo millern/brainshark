@@ -1,16 +1,44 @@
-<gh-visualization puzzle-def="puzzleDef" w="300" padding="15"></gh-visualization>
+<header id="gameHeader" class="cf">
+	<h1>Brain<span><em>S</em>hark</span></h1>
+	<nav>
+		<ul>
+			<li><a>How To Play</a></li>
+			<li class="signIn"><a>Sign In</a></li>
+		</ul>
+	</nav>
+</header>
+	
+<div id ="wrapper">
+	
+	<div id="puzzle" class="cf">
+		<div id="mainPuzzle">
+			<gh-visualization puzzle-def="puzzleDef" w="300" padding="15" class="mainPuzzle"></gh-visualization>
+		</div>	  
+		<ul id="directions">
+			<li ng-repeat="transform in puzzleDef.transforms">
+			  <span ng-show="transform[0] == 'flip'" class="flip">Flip</span>
+			  <span ng-show="transform[0] == 'rotate'" class="rotate">{{ transform[1] }}&deg;</span>
+			</li>
+		</ul>
+	</div>
+	
+	<div id="answers">  
+		<ul>
+		  <li><gh-visualization puzzle-def="puzzleDef" w="100" padding="5" ans="1"></gh-visualization></li>	
+		  <li><gh-visualization puzzle-def="puzzleDef" w="100" padding="5" ans="2"></gh-visualization></li>
+		  <li><gh-visualization puzzle-def="puzzleDef" w="100" padding="5" ans="3"></gh-visualization></li>
+		  <li><gh-visualization puzzle-def="puzzleDef" w="100" padding="5" ans="4"></gh-visualization></li>
+		</ul>
+	</div>
 
-<div class="transforms">
-  {{ puzzleDef.transforms }}
 </div>
-<div class="answers">
-  <gh-visualization puzzle-def="puzzleDef" w="100" padding="5" ans="1"></gh-visualization>
 
-  <gh-visualization puzzle-def="puzzleDef" w="100" padding="5" ans="2"></gh-visualization>
-
-  <gh-visualization puzzle-def="puzzleDef" w="100" padding="5" ans="3"></gh-visualization>
-
-  <gh-visualization puzzle-def="puzzleDef" w="100" padding="5" ans="4"></gh-visualization>
+<div id="gameNav">
+	<a class="prev">Previous Puzzle</a>
+	<a class="reveal">Reveal Answer</a>
+	<a class="next">Next Puzzle</a>
 </div>
 
-<p>It's ok, the game is rendering</p>
+<footer>
+	<small>Powered By <img src="../images/eaglecode.png" alt="Eagle Code" width="24" height="26" /></small>
+</footer>
