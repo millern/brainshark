@@ -1,10 +1,10 @@
-var makePuzzle = function(element, width, pad) {
+var makePuzzle = function(element, width) {
 
   var puzzle = {};
 
   var w = width;
   var h = width;
-  var padding = pad;
+  var padding = width/20;
 
   var svg = d3.select(element[0])
     .append('svg')
@@ -69,9 +69,12 @@ var makePuzzle = function(element, width, pad) {
         return {
           x: padding + (w - 2 * padding) * item.x,
           y: padding + (h - 2 * padding) * item.y,
-          r: (padding / 2) + padding * item.r
+          r: (padding * 3 / 4) + padding * item.r / 4
         };
       });
+
+      // Remove any images on the svg before drawing a new one
+      svg.selectAll('.brainimage').remove();
 
       var circles = svg.selectAll("circle")
        .data(dataset)
@@ -86,7 +89,8 @@ var makePuzzle = function(element, width, pad) {
        })
        .attr('r', function(d){
           return d.r;
-       });
+       })
+       .attr('fill', props.color);
   };
 
   puzzle.cards = function(props) {

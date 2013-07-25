@@ -12,8 +12,9 @@ gameApp.directive('ghVisualization', function(){
 
     link: function(scope, element, attrs){
 
-      var puzzle = makePuzzle(element, scope.w, scope.padding);
+      var puzzle = makePuzzle(element, scope.w);
       scope.$watch('puzzleDef', function(newVal, oldVal){
+
         puzzle.draw(newVal);
 
         var trans = scope.puzzleDef.transforms;

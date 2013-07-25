@@ -24,19 +24,20 @@
 	
 	<div id="answers">  
 		<ul>
-		  <li><gh-visualization puzzle-def="puzzleDef" w="100" padding="5" ans="1"></gh-visualization></li>	
-		  <li><gh-visualization puzzle-def="puzzleDef" w="100" padding="5" ans="2"></gh-visualization></li>
-		  <li><gh-visualization puzzle-def="puzzleDef" w="100" padding="5" ans="3"></gh-visualization></li>
-		  <li><gh-visualization puzzle-def="puzzleDef" w="100" padding="5" ans="4"></gh-visualization></li>
+		  <li ng-class="ans1" ng-click="handleGuess(1)"><gh-visualization puzzle-def="puzzleDef" w="100" ans="1"></gh-visualization></li>	
+		  <li ng-class="ans2" ng-click="handleGuess(2)"><gh-visualization puzzle-def="puzzleDef" w="100" ans="2"></gh-visualization></li>
+		  <li ng-class="ans3" ng-click="handleGuess(3)"><gh-visualization  puzzle-def="puzzleDef" w="100" ans="3"></gh-visualization></li>
+		  <li ng-class="ans4" ng-click="handleGuess(4)"><gh-visualization puzzle-def="puzzleDef" w="100" ans="4"></gh-visualization></li>
 		</ul>
 	</div>
 
 </div>
+  {{ result }}
 
 <div id="gameNav">
 	<a class="prev">Previous Puzzle</a>
-	<a class="reveal">Reveal Answer</a>
-	<a class="next">Next Puzzle</a>
+	<a class="reveal" ng-click="handleGuess(0)">Reveal Answer</a>
+	<a class="next" ng-click="resetGame()">Next Puzzle</a>
 </div>
 
 <footer>
