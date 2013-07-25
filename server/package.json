@@ -1,0 +1,23 @@
+{
+  "name": "brainshark",
+  "version": "0.0.0",
+  "description": "server for brainshark",
+  "main": "server.js",
+  "dependencies": {
+    "express": "~3.3.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/millern/brainshark"
+  },
+  "keywords": [
+    "brainshark"
+  ],
+  "author": "Nick",
+  "license": "BSD"
+}
