@@ -21,6 +21,48 @@ var makePuzzle = function(element, width, pad) {
    .style("fill", "none")
    .style("stroke-width", 2);
 
+   var xScale = d3.scale
+         .linear()
+         .domain([0,w])
+         .range([0, w])
+         .clamp(true);
+
+   var yScale = d3.scale
+       .linear()
+       .domain([0,h])
+       .range([0,h])
+       .clamp(true);
+
+  // Functions to create grid lines
+  function make_x_axis() {
+    return d3.svg.axis()
+          .scale(xScale)
+           .orient("bottom")
+           .ticks(5);
+  }
+
+  function make_y_axis() {
+    return d3.svg.axis()
+          .scale(yScale)
+          .orient("left")
+          .ticks(5);
+  }
+
+  svg.append("g")
+          .attr("class", "grid")
+          .attr("transform", "translate(0," + h + ")")
+          .call(make_x_axis()
+              .tickSize(-h, 0, 0)
+              .tickFormat("")
+          );
+
+      svg.append("g")
+          .attr("class", "grid")
+          .call(make_y_axis()
+              .tickSize(-w, 0, 0)
+              .tickFormat("")
+          );
+
   puzzle.circle = function(props) {
 
       var dataset = _(props.dataset).map(function(item){
@@ -35,6 +77,7 @@ var makePuzzle = function(element, width, pad) {
        .data(dataset)
        .enter()
        .append("circle")
+       .attr('class','brainimage')
        .attr('cx',function(d,i){
           return d.x;
        })
@@ -57,14 +100,14 @@ var makePuzzle = function(element, width, pad) {
 
   puzzle.rotate = function(angle, puzz) {
     console.log("Rotating puzzle " + puzz + " " + angle + "degrees");
-    svg.selectAll('circle').attr("transform", function(d) {
+    svg.selectAll('.brainimage').attr("transform", function(d) {
       return "rotate(" + angle + ",50,50)";
     });
   };
 
   puzzle.flip = function(axis, puzz) {
     console.log("Flipping puzzle " + puzz + "over the " + axis + " axis");
-    svg.selectAll('circle').attr("transform", function(d){
+    svg.selectAll('.brainimage').attr("transform", function(d){
       if (axis === "x"){
         return "translate(0," + h + ") scale(1, -1)";
       } else if (axis === "y") {
