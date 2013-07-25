@@ -63,7 +63,7 @@ var makePuzzle = function(element, width, pad) {
   };
 
   puzzle.flip = function(axis, puzz) {
-    console.log("Flipping puzzle " + puzz + "over the " + axis + "axis");
+    console.log("Flipping puzzle " + puzz + "over the " + axis + " axis");
     svg.selectAll('circle').attr("transform", function(d){
       if (axis === "x"){
         return "translate(0," + h + ") scale(1, -1)";
@@ -72,6 +72,14 @@ var makePuzzle = function(element, width, pad) {
       }
     });
 
+  };
+
+  puzzle.mutate = function(transformation, puz) {
+    if (transformation[0] === "rotate") {
+      puzzle.rotate(transformation[1], puz);
+    } else if (transformation[0] === "flip") {
+      puzzle.flip(transformation[1], puz);
+    }
   };
 
   puzzle.draw = function(props) {

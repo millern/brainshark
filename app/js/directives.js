@@ -13,19 +13,19 @@ gameApp.directive('ghVisualization', function(){
     link: function(scope, element, attrs){
 
       var puzzle = makePuzzle(element, scope.w, scope.padding);
-
       scope.$watch('puzzleDef', function(newVal, oldVal){
         puzzle.draw(newVal);
 
-        // Apply the transformations to the answer puzzles
-        if (scope.ans !== undefined) {
-          var trans = scope.puzzleDef.transforms;
+        var trans = scope.puzzleDef.transforms;
+        // Apply the correct transformations to the solution
+        if (scope.ans !== undefined && scope.ans === scope.puzzleDef.solution) {
           for (var i = 0; i < trans.length; i++) {
-            if (trans[i][0] === "rotate") {
-              puzzle.rotate(trans[i][1], scope.ans);
-            } else if (trans[i][0] === "flip") {
-              puzzle.flip(trans[i][1], scope.ans);
-            }
+            puzzle.mutate(trans[i], scope.ans);
+          }
+          // Apply random transformations to the other puzzles
+        } else if (scope.ans !== undefined && scope.ans !== scope.puzzleDef.solution) {
+          for (var j = 0; j < trans.length; j++) {
+            puzzle.mutate(scope.puzzleDef.transform_set[Math.floor(Math.random()*4)], scope.ans);
           }
         }
       });
