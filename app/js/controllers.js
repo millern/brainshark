@@ -23,10 +23,11 @@ function GameCtrl($scope) {
   $scope.puzzleDef = {
     theme: 'circle',
     dataset: dataset,
-    transforms: [transforms[1],
+    transforms: [transforms[3],
                  transforms[2],
                  transforms[4],
                  transforms[0]
-                ]
+                ],
+    solution: 2
   };
 }

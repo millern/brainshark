@@ -54,18 +54,30 @@ var makePuzzle = function(element, width, pad) {
 
   };
 
+
+  puzzle.rotate = function(angle, puzz) {
+    console.log("Rotating puzzle " + puzz + " " + angle + "degrees");
+    svg.selectAll('circle').attr("transform", function(d) {
+      return "rotate(" + angle + ",50,50)";
+    });
+  };
+
+  puzzle.flip = function(axis, puzz) {
+    console.log("Flipping puzzle " + puzz + "over the " + axis + "axis");
+    svg.selectAll('circle').attr("transform", function(d){
+      if (axis === "x"){
+        return "translate(0," + h + ") scale(1, -1)";
+      } else if (axis === "y") {
+        return "translate(" + w + ",0) scale(-1, 1)";
+      }
+    });
+
+  };
+
   puzzle.draw = function(props) {
     if (props.theme === 'circle') {
       this.circle(props);
     }
-  };
-
-  puzzle.rotate = function(angle) {
-
-  };
-
-  puzzle.flip = function(axis) {
-
   };
 
   return puzzle;
