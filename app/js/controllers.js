@@ -12,7 +12,7 @@ function GameCtrl($scope) {
   }
 
   // Define transforms.  Transforms come in as #0-5
-  var transforms =[
+  $scope.transforms =[
     ["rotate", 90],
     ["rotate", 180],
     ["rotate", 270],
@@ -23,11 +23,12 @@ function GameCtrl($scope) {
   $scope.puzzleDef = {
     theme: 'circle',
     dataset: dataset,
-    transforms: [transforms[3],
-                 transforms[2],
-                 transforms[4],
-                 transforms[0]
+    transforms: [$scope.transforms[3],
+                 $scope.transforms[2],
+                 $scope.transforms[4],
+                 $scope.transforms[0]
                 ],
+    transform_set: $scope.transforms,
     solution: 2
   };
 }
