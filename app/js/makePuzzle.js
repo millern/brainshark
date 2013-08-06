@@ -63,37 +63,103 @@ var makePuzzle = function(element, width) {
               .tickFormat("")
           );
 
-  puzzle.circle = function(props) {
+  puzzle.rect = function(dataset) {
 
-      var dataset = _(props.dataset).map(function(item){
-        return {
-          x: padding + (w - 2 * padding) * item.x,
-          y: padding + (h - 2 * padding) * item.y,
-          r: (padding * 3 / 4) + padding * item.r / 4
-        };
-      });
+    dataset = _(dataset).map(function(item){
+      return {
+        x: w * item.x,
+        y: h * item.y,
+        shape: item.shape,
+        color: item.color,
+        w: w * item.w,
+        h: h * item.h
+      };
+    });
 
-      // Remove any images on the svg before drawing a new one
-      svg.selectAll('.brainimage').remove();
-
-      var circles = svg.selectAll("circle")
+    var rect = svg.selectAll("rect .brainImage")
        .data(dataset)
        .enter()
-       .append("circle")
+       .append("rect")
        .attr('class','brainimage')
-       .attr('cx',function(d,i){
-          return d.x;
+       .attr('x',function(d,i){
+          return d.x - d.w/2;
        })
-       .attr('cy', function(d) {
-          return d.y;
+       .attr('y', function(d) {
+          return d.y - d.h/2;
        })
-       .attr('r', function(d){
-          return d.r;
+       .attr('width', function(d){
+          return d.w;
        })
-       .attr('fill', props.color);
+       .attr('height', function(d){
+          return d.h;
+       })
+       .attr('fill', function(d){return d.color;});
   };
 
-  puzzle.cards = function(props) {
+  puzzle.circle = function(dataset) {
+
+    dataset = _(dataset).map(function(item){
+      return {
+        // x: padding + (w - 2 * padding) * item.x,
+        // y: padding + (h - 2 * padding) * item.y,
+        x: w * item.x,
+        y: h * item.y,
+        r: w * item.r,
+        shape: item.shape,
+        color: item.color
+      };
+    });
+
+    var circle = svg.selectAll("circle .brainImage")
+     .data(dataset)
+     .enter()
+     .append("circle")
+     .attr('class','brainimage')
+     .attr('cx',function(d){
+        return d.x;
+     })
+     .attr('cy', function(d) {
+        return d.y;
+     })
+     .attr('r', function(d){
+        return d.r;
+     })
+     .attr('fill', function(d){return d.color;});
+  };
+
+  puzzle.cards = function(dataset) {
+    console.log("drawing cards");
+    dataset = _(dataset).map(function(item){
+      return {
+        x: w * item.x,
+        y: h * item.y,
+        w: w * item.w,
+        h: h * item.h,
+        text: item.text,
+        color: item.color
+      };
+    });
+// debugger;
+    var cards = svg.selectAll('text .brainImage')
+       .data(dataset)
+       .enter()
+       .append('text')
+       .attr('x', function(d){
+         return d.x;
+       })
+       .attr('y', function(d){
+         return d.y;
+       })
+       .text(function(d){
+        return d.text;
+       })
+       .attr('fill',function(d) {
+        return d.color;
+       })
+       .attr('font-size', function(d) {
+        return d.size;
+       });
+
 
   };
 
@@ -130,9 +196,18 @@ var makePuzzle = function(element, width) {
   };
 
   puzzle.draw = function(props) {
-    if (props.theme === 'circle') {
-      this.circle(props);
-    }
+    // Remove any images on the svg before drawing a new one
+    svg.selectAll('.brainimage').remove();
+    _.each(props.dataset, function(item) {
+      if (item.hasOwnProperty("circle")){
+        this.circle(item["circle"]);
+      } else if (item.hasOwnProperty("rect")) {
+        this.rect(item["rect"]);
+      } else if (item.hasOwnProperty("cards")) {
+        this.cards(item["cards"]);
+      }
+    }, this);
+
   };
 
   return puzzle;
