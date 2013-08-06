@@ -1,5 +1,5 @@
 <header id="gameHeader" class="cf">
-	<h1>Brain<span><em>S</em>hark</span></h1>
+	<h1>Brain<span>Shark</span></h1>
 	<nav>
 		<ul>
 			<li><a>How To Play</a></li>
@@ -10,20 +10,29 @@
 	
 <div id ="wrapper">
 	
+
+	
+	<header id="puzzleHead" class="clear">
+		<h1>Level 1</h1>
+		<span class="level">Easy</span>
+		
+		<div id="timer">0:{{counter}}</div>
+
+	</header>
+			
 	<div id="puzzle" class="cf">
 		<div id="mainPuzzle">
 			<gh-visualization puzzle-def="puzzleDef" w="300" padding="15" class="mainPuzzle"></gh-visualization>
 		</div>	  
 		<ul id="directions">
 			<li ng-repeat="transform in puzzleDef.transforms">
-			  <span ng-show="transform[0] == 'flip'" class="flip">Flip</span>
-			  <span ng-show="transform[0] == 'rotate'" class="rotate">{{ transform[1] }}&deg;</span>
+			  <span ng-show="transform[0] == 'flip'" class="flip flip{{ transform[1] }}">Flip</span>
+			  <span ng-show="transform[0] == 'rotate'" class="rotate rotate{{ transform[1] }}">{{ transform[1] }}&deg;</span>
 			</li>
+			<li>The Result:</li>
 		</ul>
 	</div>
-	<div>
-      {{counter}}
-  </div>
+	
 	<div id="answers">  
 		<ul>
 		  <li ng-class="ans1" ng-click="handleGuess(1)"><gh-visualization puzzle-def="puzzleDef" w="100" ans="1"></gh-visualization></li>	
@@ -33,15 +42,16 @@
 		</ul>
 	</div>
 
+  	<center><br />{{ result }}</center>
 </div>
-  {{ result }}
+
 
 <div id="gameNav">
-	<a class="prev">Previous Puzzle</a>
+	<a class="prev"><span>Previous Puzzle</span></a>
 	<a class="reveal" ng-click="handleGuess(0)">Reveal Answer</a>
-	<a class="next" ng-click="resetGame()">Next Puzzle</a>
+	<a class="next" ng-click="resetGame()"><span>Next Puzzle</span></a>
 </div>
 
-<footer>
+<footer id="mainFooter">
 	<small>Powered By <img src="../images/eaglecode.png" alt="Eagle Code" width="24" height="26" /></small>
 </footer>

@@ -80,10 +80,11 @@ strong{
 
 a{
 	text-decoration: none;
+	cursor:pointer !important;
 }
 
 a:hover{
-	text-decoration: underline;
+	text-decoration: none	;
 }
 
 
@@ -91,7 +92,7 @@ a:hover{
 ----------------------------------------------- */
 body{
 	background-color:rgb(199,71,63);
-	font-family: "adelle-sans",sans-serif;
+	font-family: "museo-sans",sans-serif;
 	font-weight: 100;
 	font-size: 1em;
 }
@@ -113,19 +114,42 @@ body{
 ----------------------------------------------- */
 #gameHeader{
 	color:white;
-	font-family: "arno-pro-display",serif;
+	/* font-family: "arno-pro-display",serif; */
 	font-weight: 100;
-	font-size: 1.2em;
+	font-size: 1em;
+/* Firefox v3.6+ */
+background-image:-moz-linear-gradient(50% 0% -90deg,rgb(0,164,167) 0%,rgb(0,139,141) 100%); 
+/* safari v4.0+ and by Chrome v3.0+ */
+background-image:-webkit-gradient(linear,50% 0%,50% 100%,color-stop(0, rgb(0,164,167)),color-stop(1, rgb(0,139,141)));
+/* Chrome v10.0+ and by safari nightly build*/
+background-image:-webkit-linear-gradient(-90deg,rgb(0,164,167) 0%,rgb(0,139,141) 100%);
+/* Opera v11.10+ */
+background-image:-o-linear-gradient(-90deg,rgb(0,164,167) 0%,rgb(0,139,141) 100%);
+background-image:linear-gradient(180deg,rgb(0,164,167) 0%,rgb(0,139,141) 100%);
+
+border-style:solid;
+border-color:rgb(92,191,194);
+border-width:1px;
+/* Firefox v3.5+ */
+-moz-box-shadow:0px 1px 0px rgb(0,139,143);
+/* Safari v3.0+ and by Chrome v0.2+ */
+-webkit-box-shadow:0px 1px 0px rgb(0,139,143);
+/* Firefox v4.0+ , Safari v5.1+ , Chrome v10.0+, IE v10+ and by Opera v10.5+ */
+box-shadow:0px 1px 0px rgb(0,139,143);
+position: relative;
+
 }
 
 #gameHeader h1{
 	width:150px;
 	float:left;
-
-	text-transform: lowercase;
+	font-weight: 100 !important;
+	/* text-transform: lowercase; */
 	color:#BFFFFF;
 	font-size:2em;	
 	padding:10px 20px 5px;
+	opacity: .99;
+	text-shadow:0px 1px 0px rgba(0,0,0,0.21);
 }
 
 #gameHeader h1 span{
@@ -163,7 +187,8 @@ body{
 }
 
 #directions{
-	float:left;
+	float:right;
+	margin-left: 10px;
 }
 
 #mainPuzzle{
@@ -184,6 +209,7 @@ body{
 
 #answers li{
 	display: inline-block;
+	cursor: pointer;
 }
 
 /* CSS for D3 Grid Lines
@@ -194,5 +220,169 @@ body{
 }
 .grid path {
       stroke-width: 0;
+}
+
+
+/* Icons
+----------------------------------------------- */
+.flip, .rotate{
+	/* display: table; */
+/* 	padding:10px 10px 10px 45px; */
+	width:140px;
+	height:42px;
+	display: block;
+	line-height: 2em;
+	text-align: left;
+
+
+}
+
+#directions li{
+	padding:10px 5px;
+	border-top:1px solid #DDDDDD;
+	text-align: center;
+	font-size: 1.4em;
+	line-height: 2em;
+
+}
+
+#directions > li:first-child{
+	margin-top: 0;
+}
+
+
+.flip:before, .rotate:before{
+	content: "";
+	width:42px;
+	height:42px;
+	background-image: url(images/iconsprite.png);
+	background-repeat: no-repeat;
+	background-size: 42px;
+	float:left;
+	margin:0 15px;
+}
+
+
+.flipx:before{
+	background-position-y: -84px;
+}
+
+.flipy:before{
+	background-position-y: bottom;
+	
+}
+
+.rotate90:before, .rotate180:before{
+	background-position-y: top;
+}
+
+.rotate270:before{
+	background-position-y: -42px;
+}
+
+
+/* Game Header
+----------------------------------------------- */
+#puzzleHead{
+	max-width: 500px;
+	padding:10px;
+	margin: 0 auto 10px;
+}
+
+#puzzleHead h1, #puzzleHead span{
+	display: inline-block;
+	font-size: 2em;
+	color:rgb(242,117,73);
+}
+
+#puzzleHead span{
+	color:#878787;
+	text-transform: lowercase;
+	margin-left: 5px;
+}
+
+#timer{
+	float:right;
+	padding:5px 8px 3px;
+	background: #F25252;
+	font-size: 1.1em;
+	color:white;
+	text-align: center;
+	min-width: 40px;
+	margin-top: 6px;
+}
+
+
+
+/* Game Nav
+----------------------------------------------- */
+#gameNav{
+	padding:20px 10px;
+	color: white;
+	font-size: 1.1em;
+	position: relative;
+}
+
+#gameNav a{
+	display: block;
+	position: absolute;
+}
+
+#gameNav a.next, #gameNav a.prev{
+	top:15px;
+	height:45px;
+	background: url(images/arrows.png) no-repeat;
+	background-size: 45px;
+	line-height: 2.4;
+}
+
+#gameNav a.next{
+	right:10px;
+	padding-right:60px;
+	background-position: right bottom;
+}
+
+
+
+#gameNav a.prev{
+	left:10px;	
+	padding-left: 20px;
+	background-position: left top;
+	padding-left:60px;
+
+
+}
+
+#gameNav a.reveal{
+	width:200px;
+	position: relative;
+	text-align: center;
+	font-size: 1.5em;
+	margin: 0 auto;
+	
+}
+
+
+@media only screen and (max-width : 600px){
+	#gameNav a span{
+		display: none;
+	}
+}
+
+
+/* Footer
+----------------------------------------------- */
+
+#mainFooter{
+	color:white;
+	font-size: .5em;
+	text-align: center;
+	padding:20px 0;
+}
+
+#mainFooter small img{
+	clear: both !important;
+	display: block;
+	margin:5px auto;
 }
 
