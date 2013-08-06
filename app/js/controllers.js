@@ -1,34 +1,57 @@
 function GameCtrl($scope, $timeout) {
 
   $scope.puzzleDef = undefined;
-  // Game state variables for answers.  "unknown, correct, wrong"
-  $scope.ans1 = "unknown";
-  $scope.ans2 = "unknown";
-  $scope.ans3 = "unknown";
-  $scope.ans4 = "unknown";
+  // Game state variables for answers.  "unknown, correct, wrong".  These define classes for answers.
+  $scope.ans = ["unknown","unknown","unknown","unknown"];
+
+  // Track whether guess has been made
+  $scope.guessed = false;
 
   // Game state string
   $scope.result = "Select a result";
 
 
   $scope.handleGuess = function(ans) {
-    console.log("You guessed " + ans);
-    if (ans === $scope.puzzleDef.ans) {
-      // Set the answer message
-      $scope.result = "You guessed right";
-      $scope["ans"+ans] = "correct";
-    } else {
-      $scope.result = "You guessed wrong";
-      $scope["ans"+ans] = "wrong";
-      $scope["ans" + $scope.puzzleDef.ans] = "correct";
+    if (!$scope.guessed) {
+      console.log("You guessed " + ans);
+      if (ans === $scope.puzzleDef.ans) {
+        // Set the answer message
+        $scope.result = "You guessed right";
+        $scope["ans"][ans] = "correct";
+      } else {
+        $scope.result = "You guessed wrong";
+        $scope["ans"][ans] = "wrong";
+        $scope["ans"][$scope.puzzleDef.ans] = "correct";
+      }
     }
+    $scope.guessed = true;
   };
 
   $scope.resetGame = function() {
 
+    $scope.guessed = false;
+    $scope.result = "Select a result";
+    $scope.ans = ["unknown","unknown","unknown","unknown"];
+    $scope.counter = 4;
+
     var dataset = [];
 
-    // Set the positions of the circles.  puzzle may come from the server later.
+    // Define a game
+
+    var game1 = [
+      {rect: [
+        {x: 0.5, y: 0.5, color: '#'+Math.floor(Math.random()*16777215).toString(16)},
+        {x: 0.25, y: 0.5, color: '#'+Math.floor(Math.random()*16777215).toString(16)},
+        {x: 0.75, y: 0.5, color: '#'+Math.floor(Math.random()*16777215).toString(16)}
+      ]},
+      {circle: [
+        {x: 0.5, y: 0.25, color: '#'+Math.floor(Math.random()*16777215).toString(16)},
+        {x: 0.25, y: 0.25, color: '#'+Math.floor(Math.random()*16777215).toString(16)},
+        {x: 0.75, y: 0.25, color: '#'+Math.floor(Math.random()*16777215).toString(16)}
+      ]}
+    ];
+
+    // Pick a dataset for the game.  
     for (var i = 0; i < 3; i++) {
       dataset.push({
         x:Math.random(),
@@ -47,8 +70,7 @@ function GameCtrl($scope, $timeout) {
     ];
 
     $scope.puzzleDef = {
-      theme: 'circle',
-      dataset: dataset,
+      dataset: game1,
       transforms: [$scope.transforms[3],
                    $scope.transforms[2],
                    $scope.transforms[4],
@@ -65,11 +87,14 @@ function GameCtrl($scope, $timeout) {
 
 
   // Timer 
-  $scope.counter = 60;
+  $scope.counter = 4;
   $scope.onTimeout = function(){
       $scope.counter--;
       if ($scope.counter > 0 ) {
         mytimeout = $timeout($scope.onTimeout,1000);
+      } else {
+        // Time is up.  Handle empty guess.  
+        $scope.handleGuess(0);
       }
   };
   var mytimeout = $timeout($scope.onTimeout,1000);

@@ -63,34 +63,63 @@ var makePuzzle = function(element, width) {
               .tickFormat("")
           );
 
-  puzzle.circle = function(props) {
+  puzzle.rect = function(dataset) {
 
-      var dataset = _(props.dataset).map(function(item){
-        return {
-          x: padding + (w - 2 * padding) * item.x,
-          y: padding + (h - 2 * padding) * item.y,
-          r: (padding * 3 / 4) + padding * item.r / 4
-        };
-      });
+    dataset = _(dataset).map(function(item){
+      return {
+        x: padding + (w - 2 * padding) * item.x,
+        y: padding + (h - 2 * padding) * item.y,
+        shape: item.shape,
+        color: item.color
+      };
+    });
 
-      // Remove any images on the svg before drawing a new one
-      svg.selectAll('.brainimage').remove();
-
-      var circles = svg.selectAll("circle")
+    var rect = svg.selectAll("rect .brainImage")
        .data(dataset)
        .enter()
-       .append("circle")
+       .append("rect")
        .attr('class','brainimage')
-       .attr('cx',function(d,i){
+       .attr('x',function(d,i){
           return d.x;
        })
-       .attr('cy', function(d) {
+       .attr('y', function(d) {
           return d.y;
        })
-       .attr('r', function(d){
-          return d.r;
+       .attr('width', function(d){
+          return h/15;
        })
-       .attr('fill', props.color);
+       .attr('height', function(d){
+          return w/15;
+       })
+       .attr('fill', function(d){return d.color;});
+  };
+
+  puzzle.circle = function(dataset) {
+
+    dataset = _(dataset).map(function(item){
+      return {
+        x: padding + (w - 2 * padding) * item.x,
+        y: padding + (h - 2 * padding) * item.y,
+        shape: item.shape,
+        color: item.color
+      };
+    });
+
+    var circle = svg.selectAll("circle .brainImage")
+     .data(dataset)
+     .enter()
+     .append("circle")
+     .attr('class','brainimage')
+     .attr('cx',function(d,i){
+        return d.x;
+     })
+     .attr('cy', function(d) {
+        return d.y;
+     })
+     .attr('r', function(d){
+        return h/15;
+     })
+     .attr('fill', function(d){return d.color;});
   };
 
   puzzle.cards = function(props) {
@@ -130,9 +159,16 @@ var makePuzzle = function(element, width) {
   };
 
   puzzle.draw = function(props) {
-    if (props.theme === 'circle') {
-      this.circle(props);
-    }
+    // Remove any images on the svg before drawing a new one
+    svg.selectAll('.brainimage').remove();
+    _.each(props.dataset, function(item) {
+      if (item.hasOwnProperty("circle")){
+        this.circle(item["circle"]);
+      } else if (item.hasOwnProperty("rect")) {
+        this.rect(item["rect"]);
+      }
+    }, this);
+
   };
 
   return puzzle;
