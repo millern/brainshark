@@ -127,7 +127,39 @@ var makePuzzle = function(element, width) {
      .attr('fill', function(d){return d.color;});
   };
 
-  puzzle.cards = function(props) {
+  puzzle.cards = function(dataset) {
+    console.log("drawing cards");
+    dataset = _(dataset).map(function(item){
+      return {
+        x: w * item.x,
+        y: h * item.y,
+        w: w * item.w,
+        h: h * item.h,
+        text: item.text,
+        color: item.color
+      };
+    });
+// debugger;
+    var cards = svg.selectAll('text .brainImage')
+       .data(dataset)
+       .enter()
+       .append('text')
+       .attr('x', function(d){
+         return d.x;
+       })
+       .attr('y', function(d){
+         return d.y;
+       })
+       .text(function(d){
+        return d.text;
+       })
+       .attr('fill',function(d) {
+        return d.color;
+       })
+       .attr('font-size', function(d) {
+        return d.size;
+       });
+
 
   };
 
@@ -171,6 +203,8 @@ var makePuzzle = function(element, width) {
         this.circle(item["circle"]);
       } else if (item.hasOwnProperty("rect")) {
         this.rect(item["rect"]);
+      } else if (item.hasOwnProperty("cards")) {
+        this.cards(item["cards"]);
       }
     }, this);
 
