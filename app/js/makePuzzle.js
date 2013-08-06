@@ -67,10 +67,12 @@ var makePuzzle = function(element, width) {
 
     dataset = _(dataset).map(function(item){
       return {
-        x: padding + (w - 2 * padding) * item.x,
-        y: padding + (h - 2 * padding) * item.y,
+        x: w * item.x,
+        y: h * item.y,
         shape: item.shape,
-        color: item.color
+        color: item.color,
+        w: w * item.w,
+        h: h * item.h
       };
     });
 
@@ -80,16 +82,16 @@ var makePuzzle = function(element, width) {
        .append("rect")
        .attr('class','brainimage')
        .attr('x',function(d,i){
-          return d.x;
+          return d.x - d.w/2;
        })
        .attr('y', function(d) {
-          return d.y;
+          return d.y - d.h/2;
        })
        .attr('width', function(d){
-          return h/15;
+          return d.w;
        })
        .attr('height', function(d){
-          return w/15;
+          return d.h;
        })
        .attr('fill', function(d){return d.color;});
   };
@@ -98,8 +100,11 @@ var makePuzzle = function(element, width) {
 
     dataset = _(dataset).map(function(item){
       return {
-        x: padding + (w - 2 * padding) * item.x,
-        y: padding + (h - 2 * padding) * item.y,
+        // x: padding + (w - 2 * padding) * item.x,
+        // y: padding + (h - 2 * padding) * item.y,
+        x: w * item.x,
+        y: h * item.y,
+        r: w * item.r,
         shape: item.shape,
         color: item.color
       };
@@ -110,14 +115,14 @@ var makePuzzle = function(element, width) {
      .enter()
      .append("circle")
      .attr('class','brainimage')
-     .attr('cx',function(d,i){
+     .attr('cx',function(d){
         return d.x;
      })
      .attr('cy', function(d) {
         return d.y;
      })
      .attr('r', function(d){
-        return h/15;
+        return d.r;
      })
      .attr('fill', function(d){return d.color;});
   };

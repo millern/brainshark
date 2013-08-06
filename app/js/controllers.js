@@ -29,37 +29,59 @@ function GameCtrl($scope, $timeout) {
 
   $scope.resetGame = function() {
 
+    // Game state variables
+
     $scope.guessed = false;
     $scope.result = "Select a result";
     $scope.ans = ["unknown","unknown","unknown","unknown"];
     $scope.counter = 4;
 
-    var dataset = [];
+    // Define the games.
 
-    // Define a game
+    var game1 = {
+      id: 1,
+      level: "Easy",
+      data: [
+        {rect: [
+          {x: 0.5, y: 0.5, w: 0.1, h: 0.15, color: '#'+Math.floor(Math.random()*16777215).toString(16)}
+        ]},
+        {circle: [
+          {x: 0.15, y: 0.5, r: 0.1, color: '#'+Math.floor(Math.random()*16777215).toString(16)},
+          {x: 0.85, y: 0.5, r: 0.1, color: '#'+Math.floor(Math.random()*16777215).toString(16)}
+        ]}
+      ]
+    };
 
-    var game1 = [
-      {rect: [
-        {x: 0.5, y: 0.5, color: '#'+Math.floor(Math.random()*16777215).toString(16)},
-        {x: 0.25, y: 0.5, color: '#'+Math.floor(Math.random()*16777215).toString(16)},
-        {x: 0.75, y: 0.5, color: '#'+Math.floor(Math.random()*16777215).toString(16)}
-      ]},
-      {circle: [
-        {x: 0.5, y: 0.25, color: '#'+Math.floor(Math.random()*16777215).toString(16)},
-        {x: 0.25, y: 0.25, color: '#'+Math.floor(Math.random()*16777215).toString(16)},
-        {x: 0.75, y: 0.25, color: '#'+Math.floor(Math.random()*16777215).toString(16)}
-      ]}
-    ];
+    var game2 = {
+      id: 2,
+      level: "Medium",
+      data: [
+        {rect: [
+          {x: 0.5, y: 0.5, w: 0.1, h: 0.15, color: '#'+Math.floor(Math.random()*16777215).toString(16)},
+          {x: 0.5, y: 0.1, w: 0.1, h: 0.15, color: '#'+Math.floor(Math.random()*16777215).toString(16)}
+        ]},
+        {circle: [
+          {x: 0.15, y: 0.5, r: 0.1, color: '#'+Math.floor(Math.random()*16777215).toString(16)},
+          {x: 0.85, y: 0.5, r: 0.1, color: '#'+Math.floor(Math.random()*16777215).toString(16)}
+        ]}
+      ]
+    };
 
-    // Pick a dataset for the game.  
-    for (var i = 0; i < 3; i++) {
-      dataset.push({
-        x:Math.random(),
-        y:Math.random(),
-        r:Math.random()
-      });
-    }
-
+    var game3 = {
+      id: 3,
+      level: "Hard",
+      data: [
+        {rect: [
+          {x: 0.5, y: 0.5, w: 0.1, h: 0.15, color: '#'+Math.floor(Math.random()*16777215).toString(16)},
+          {x: 0.5, y: 0.1, w: 0.1, h: 0.15, color: '#'+Math.floor(Math.random()*16777215).toString(16)},
+          {x: 0.5, y: 0.9, w: 0.1, h: 0.15, color: '#'+Math.floor(Math.random()*16777215).toString(16)}
+        ]},
+        {circle: [
+          {x: 0.15, y: 0.5, r: 0.1, color: '#'+Math.floor(Math.random()*16777215).toString(16)},
+          {x: 0.85, y: 0.5, r: 0.1, color: '#'+Math.floor(Math.random()*16777215).toString(16)}
+        ]}
+      ]
+    };
     // Define transforms.  Transforms come in as #0-5
     $scope.transforms =[
       ["rotate", 90],
@@ -70,7 +92,7 @@ function GameCtrl($scope, $timeout) {
     ];
 
     $scope.puzzleDef = {
-      dataset: game1,
+      dataset: game3.data,
       transforms: [$scope.transforms[3],
                    $scope.transforms[2],
                    $scope.transforms[4],
