@@ -1,4 +1,4 @@
-function GameCtrl($scope) {
+function GameCtrl($scope, $timeout) {
 
   $scope.puzzleDef = undefined;
   // Game state variables for answers.  "unknown, correct, wrong"
@@ -63,4 +63,14 @@ function GameCtrl($scope) {
 
   $scope.resetGame();
 
+
+  // Timer 
+  $scope.counter = 60;
+  $scope.onTimeout = function(){
+      $scope.counter--;
+      if ($scope.counter > 0 ) {
+        mytimeout = $timeout($scope.onTimeout,1000);
+      }
+  };
+  var mytimeout = $timeout($scope.onTimeout,1000);
 }
