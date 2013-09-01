@@ -1,4 +1,4 @@
-function GameCtrl($scope, $timeout) {
+function GameCtrl($scope, $timeout, $http) {
 
   $scope.puzzleDef = undefined;
   // Game state variables for answers.  "unknown, correct, wrong".  These define classes for answers.
@@ -63,7 +63,7 @@ function GameCtrl($scope, $timeout) {
 
   $scope.games.push( {
     id: 4,
-    level: "Hard",
+    level: "Impossible",
     data: [
       {cards: [
         {x: 0.5, y: 0.75, size: "20px", text:'A', color: 'red'},
@@ -113,14 +113,14 @@ function GameCtrl($scope, $timeout) {
     ];
 
     $scope.puzzleDef = {
-      dataset: $scope.games[3].data,
+      dataset: $scope.games[$scope.currGame],
       transforms: [$scope.transforms[3],
                    $scope.transforms[2],
                    $scope.transforms[4],
                    $scope.transforms[0]
                   ],
       transform_set: $scope.transforms,
-      solution: 2,
+      solution: Math.floor(Math.random()*4),
       color: '#'+Math.floor(Math.random()*16777215).toString(16) // Pick a random color.  Why not?
     };
 
@@ -130,7 +130,7 @@ function GameCtrl($scope, $timeout) {
 
 
   // Timer 
-  $scope.counter = 100;
+  $scope.counter = 59;
   $scope.onTimeout = function(){
       $scope.counter--;
       if ($scope.counter > 0 ) {
@@ -141,4 +141,62 @@ function GameCtrl($scope, $timeout) {
       }
   };
   var mytimeout = $timeout($scope.onTimeout,1000);
+
+  // Login 
+  $scope.logged_in = undefined;
+  $scope.access_token = "";
+  // OAuth callback
+  $scope.signinCallback = function(authResult) {
+    if (authResult['access_token']) {
+      $scope.logged_in = true;
+      $scope.access_token = authResult['access_token'];
+      console.log("YOU HAVE SUCCESSFULLY SIGNED IN");
+    } else if (authResult['error']) {
+      console.log("SIGN IN FAILURE");
+    }
+  };
+
+  window.signinCallback = $scope.signinCallback;
+
+  $scope.disconnectUser = function(){
+    var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' +
+        $scope.access_token;
+    $http.jsonp(revokeUrl, {
+          params: {
+            callback: 'JSON_CALLBACK'
+          }
+        })
+        .success(function(){
+          console.log("You have successfully signed out");
+          $scope.logged_in=false;
+          $scope.access_token = "";
+        })
+        .error(function(e){
+          console.log("There was an error signing out of Google");
+          console.log(e);
+        });
+  };
+
+
+  function disconnectUser(access_token) {
+
+    // Perform an asynchronous GET request.
+    $.ajax({
+      type: 'GET',
+      url: revokeUrl,
+      async: false,
+      contentType: "application/json",
+      dataType: 'jsonp',
+      success: function(nullResponse) {
+        // Do something now that user is disconnected
+        // The response is always undefined.
+      },
+      error: function(e) {
+        // Handle the error
+        // console.log(e);
+        // You could point users to manually disconnect if unsuccessful
+        // https://plus.google.com/apps
+      }
+    });
+  }
 }

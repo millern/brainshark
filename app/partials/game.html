@@ -3,7 +3,19 @@
 	<nav>
 		<ul>
 			<li><a>How To Play</a></li>
-			<li class="signIn"><a>Sign In</a></li>
+			<li ng-show="logged_in"class="signIn"><a ng-click="disconnectUser()">Sign Out</a></li>
+			<li ng-show="!logged_in" class="signIn">
+				<span id="signinButton">
+				  <span
+				    class="g-signin"
+				    data-callback="signinCallback"
+				    data-clientid="337972915336.apps.googleusercontent.com"
+				    data-cookiepolicy="single_host_origin"
+				    data-requestvisibleactions="http://schemas.google.com/AddActivity"
+				    data-scope="https://www.googleapis.com/auth/plus.login">
+				  </span>
+				</span>
+			</li>
 		</ul>
 	</nav>
 </header>
@@ -13,16 +25,16 @@
 
 	
 	<header id="puzzleHead" class="clear">
-		<h1>Level 1</h1>
-		<span class="level">Easy</span>
+		<h1>Level {{ puzzleDef.dataset.id }}</h1>
+		<span class="level">{{ puzzleDef.dataset.level }}</span>
 		
-		<div id="timer">0:{{counter}}</div>
+		<div id="timer">0:{{ counter }}</div>
 
 	</header>
 			
 	<div id="puzzle" class="cf">
 		<div id="mainPuzzle">
-			<gh-visualization puzzle-def="puzzleDef" w="300" padding="15" class="mainPuzzle"></gh-visualization>
+			<gh-visualization puzzle-def="puzzleDef" w="300" padding="15" class="mainPuzzle" box-no="0"></gh-visualization>
 		</div>	  
 		<ul id="directions">
 			<li ng-repeat="transform in puzzleDef.transforms">
@@ -35,10 +47,10 @@
 	
 	<div id="answers">  
 		<ul>
-		  <li ng-class="ans1" ng-click="handleGuess(1)"><gh-visualization puzzle-def="puzzleDef" w="100" ans="1"></gh-visualization></li>	
-		  <li ng-class="ans2" ng-click="handleGuess(2)"><gh-visualization puzzle-def="puzzleDef" w="100" ans="2"></gh-visualization></li>
-		  <li ng-class="ans3" ng-click="handleGuess(3)"><gh-visualization  puzzle-def="puzzleDef" w="100" ans="3"></gh-visualization></li>
-		  <li ng-class="ans4" ng-click="handleGuess(4)"><gh-visualization puzzle-def="puzzleDef" w="100" ans="4"></gh-visualization></li>
+		  <li ng-class="ans1" ng-click="handleGuess(1)"><gh-visualization puzzle-def="puzzleDef" w="100" box-no="1"></gh-visualization></li>
+		  <li ng-class="ans2" ng-click="handleGuess(2)"><gh-visualization puzzle-def="puzzleDef" w="100" box-no="2"></gh-visualization></li>
+		  <li ng-class="ans3" ng-click="handleGuess(3)"><gh-visualization  puzzle-def="puzzleDef" w="100" box-no="3"></gh-visualization></li>
+		  <li ng-class="ans4" ng-click="handleGuess(4)"><gh-visualization puzzle-def="puzzleDef" w="100" box-no="4"></gh-visualization></li>
 		</ul>
 	</div>
 

@@ -80,7 +80,7 @@ var makePuzzle = function(element, width) {
        .data(dataset)
        .enter()
        .append("rect")
-       .attr('class','brainimage')
+       .attr('class','brainImage')
        .attr('x',function(d,i){
           return d.x - d.w/2;
        })
@@ -114,7 +114,7 @@ var makePuzzle = function(element, width) {
      .data(dataset)
      .enter()
      .append("circle")
-     .attr('class','brainimage')
+     .attr('class','brainImage')
      .attr('cx',function(d){
         return d.x;
      })
@@ -139,7 +139,7 @@ var makePuzzle = function(element, width) {
         color: item.color
       };
     });
-// debugger;
+
     var cards = svg.selectAll('text .brainImage')
        .data(dataset)
        .enter()
@@ -170,14 +170,14 @@ var makePuzzle = function(element, width) {
 
   puzzle.rotate = function(angle, puzz) {
     console.log("Rotating puzzle " + puzz + " " + angle + "degrees");
-    svg.selectAll('.brainimage').attr("transform", function(d) {
+    svg.selectAll('.brainImage').attr("transform", function(d) {
       return "rotate(" + angle + ",50,50)";
     });
   };
 
   puzzle.flip = function(axis, puzz) {
     console.log("Flipping puzzle " + puzz + "over the " + axis + " axis");
-    svg.selectAll('.brainimage').attr("transform", function(d){
+    svg.selectAll('.brainImage').attr("transform", function(d){
       if (axis === "x"){
         return "translate(0," + h + ") scale(1, -1)";
       } else if (axis === "y") {
@@ -197,8 +197,8 @@ var makePuzzle = function(element, width) {
 
   puzzle.draw = function(props) {
     // Remove any images on the svg before drawing a new one
-    svg.selectAll('.brainimage').remove();
-    _.each(props.dataset, function(item) {
+    svg.selectAll('.brainImage').remove();
+    _.each(props.dataset.data, function(item) {
       if (item.hasOwnProperty("circle")){
         this.circle(item["circle"]);
       } else if (item.hasOwnProperty("rect")) {
